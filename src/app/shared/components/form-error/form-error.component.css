@@ -1,0 +1,17 @@
+.field-error-message {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--brand-danger, #dc2626);
+  line-height: 1.35;
+  margin-top: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.field-error-message i {
+  font-size: 0.85rem;
+  color: var(--brand-danger, #dc2626);
+  flex-shrink: 0;
+}
+

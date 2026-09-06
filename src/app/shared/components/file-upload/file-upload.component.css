@@ -1,0 +1,35 @@
+.dropzone-area {
+  border-color: #cbd5e1;
+  background-color: #f8fafc;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.dropzone-area:hover, .dropzone-area.drag-over {
+  border-color: #2563eb;
+  background-color: #eff6ff;
+  transform: translateY(-1px);
+}
+
+.dropzone-area.has-error {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.dropzone-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+}
+
+.file-icon-box {
+  width: 50px;
+  height: 50px;
+  background-color: #f1f5f9;
+}
+
+.file-name-display {
+  max-width: 320px;
+}

@@ -1,0 +1,42 @@
+@if (isOpen) {
+  <div class="modal-backdrop fade show" (click)="onBackdropClick()"></div>
+  <div
+    class="modal fade show d-block"
+    tabindex="-1"
+    role="dialog"
+    aria-modal="true"
+    (click)="onBackdropClick()"
+  >
+    <div class="modal-dialog modal-dialog-centered" [class.modal-lg]="size === 'lg'" (click)="$event.stopPropagation()">
+      <div class="modal-content shadow-xl border-0 rounded-4">
+        <!-- Modal Header -->
+        <div class="modal-header border-bottom py-3 px-4">
+          <h5 class="modal-title fw-bold text-dark d-flex align-items-center gap-2">
+            @if (icon) {
+              <i class="bi" [ngClass]="icon"></i>
+            }
+            {{ title }}
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            (click)="closeModal()"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body p-4">
+          <ng-content></ng-content>
+        </div>
+
+        <!-- Modal Footer -->
+        @if (showFooter) {
+          <div class="modal-footer border-top py-2.5 px-4 bg-light rounded-bottom-4">
+            <ng-content select="[modal-actions]"></ng-content>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,328 @@
+<div class="enterprise-card fade-in-step">
+  <div class="enterprise-card-header d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
+    <div>
+      <h4 class="mb-1 fw-bold text-dark">Step 6: Review & Final Submission</h4>
+      <p class="text-muted small mb-0">Please review all submitted details thoroughly before submitting your official application.</p>
+    </div>
+
+    @if (!state.isSubmitted) {
+      <div class="d-flex align-items-center gap-2">
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="openPayloadPreview()">
+          <i class="bi bi-filetype-json"></i> View JSON
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-success px-3"
+          [disabled]="!isAllValid || state.isSubmitting"
+          (click)="onSubmit()"
+        >
+          @if (state.isSubmitting) {
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span>Submitting...</span>
+          } @else {
+            <i class="bi bi-send-fill"></i>
+            <span>Submit Application</span>
+          }
+        </button>
+      </div>
+    }
+  </div>
+
+  <div class="enterprise-card-body">
+    <!-- If already submitted: Success Banner -->
+    @if (state.isSubmitted) {
+      <div class="p-4 p-md-5 mb-4 text-center rounded-3 bg-success-subtle border border-success-subtle">
+        <div class="mb-3">
+          <i class="bi bi-patch-check-fill text-success" style="font-size: 3.5rem;"></i>
+        </div>
+        <h3 class="fw-bold text-success mb-1">Application Submitted Successfully!</h3>
+        <p class="text-secondary mb-3">
+          Your application has been logged and transmitted to the review board.
+        </p>
+        <div class="d-inline-flex flex-wrap gap-2 justify-content-center p-2 bg-white rounded-3 border mb-4">
+          <div class="px-3 py-1 text-start">
+            <div class="text-muted small">Application ID</div>
+            <div class="fw-bold text-dark fs-6">{{ state.applicationId }}</div>
+          </div>
+          <div class="border-start d-none d-sm-block"></div>
+          <div class="px-3 py-1 text-start">
+            <div class="text-muted small">Submitted Timestamp</div>
+            <div class="fw-bold text-dark fs-6">{{ state.submittedAt | date:'medium' }}</div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-center gap-2">
+          <button type="button" class="btn btn-outline-secondary" (click)="openPayloadPreview()">
+            <i class="bi bi-code-square"></i> Inspect Logged Data
+          </button>
+          <button type="button" class="btn btn-primary" (click)="onStartNew()">
+            <i class="bi bi-arrow-counterclockwise"></i> Submit Another Application
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- Application Readiness Alert if incomplete -->
+    @if (!isAllValid && !state.isSubmitted) {
+      <div class="alert alert-warning d-flex align-items-center gap-2 py-2 px-3 mb-4 rounded-3 border-warning-subtle small" role="alert">
+        <i class="bi bi-exclamation-triangle-fill fs-5 text-warning"></i>
+        <div>
+          <strong>Action Required:</strong> One or more mandatory sections contain incomplete or invalid inputs. Please use the "Edit" links below to resolve them before submitting.
+        </div>
+      </div>
+    }
+
+    <!-- SECTION 1: PERSONAL INFORMATION -->
+    <div class="review-section mb-4 p-3 p-md-4 rounded-3 border bg-white shadow-xs">
+      <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+        <h6 class="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+          <i class="bi bi-person-badge text-primary"></i>
+          1. Personal & Contact Information
+        </h6>
+        <button type="button" class="btn btn-sm btn-light border rounded-pill py-1 px-3 small" (click)="editSection(1)">
+          <i class="bi bi-pencil-square text-primary"></i> Edit
+        </button>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-sm-6 col-md-3">
+          <div class="text-muted small">Full Legal Name</div>
+          <div class="fw-bold text-dark">{{ state.personalInformation.fullName || '—' }}</div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="text-muted small">Email Address</div>
+          <div class="fw-bold text-dark">{{ state.personalInformation.email || '—' }}</div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="text-muted small">Phone Number</div>
+          <div class="fw-bold text-dark">{{ state.personalInformation.phone || '—' }}</div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+          <div class="text-muted small">Status</div>
+          <div>
+            @if (state.stepValidation.step1Valid) {
+              <span class="badge bg-success-subtle text-success border border-success-subtle"><i class="bi bi-check-circle me-1"></i> Valid</span>
+            } @else {
+              <span class="badge bg-danger-subtle text-danger border border-danger-subtle"><i class="bi bi-exclamation-circle me-1"></i> Incomplete</span>
+            }
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="text-muted small">Residential Address</div>
+          <div class="text-dark">{{ state.personalInformation.address || '—' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: EDUCATION -->
+    <div class="review-section mb-4 p-3 p-md-4 rounded-3 border bg-white shadow-xs">
+      <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+        <h6 class="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+          <i class="bi bi-mortarboard text-primary"></i>
+          2. Educational Qualifications
+        </h6>
+        <button type="button" class="btn btn-sm btn-light border rounded-pill py-1 px-3 small" (click)="editSection(2)">
+          <i class="bi bi-pencil-square text-primary"></i> Edit
+        </button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table-custom mb-0">
+          <thead>
+            <tr>
+              <th>Degree / Qualification</th>
+              <th>School / Institute</th>
+              <th>Board / University</th>
+              <th>Score</th>
+              <th>Passing Year</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- SSC -->
+            <tr>
+              <td><strong>10th Standard (SSC)</strong></td>
+              <td>{{ state.education.ssc.instituteName || '—' }}</td>
+              <td>{{ state.education.ssc.boardOrUniversity || '—' }}</td>
+              <td>{{ state.education.ssc.cgpaOrPercentage ? state.education.ssc.cgpaOrPercentage + '%' : '—' }}</td>
+              <td>{{ state.education.ssc.passingYear || '—' }}</td>
+            </tr>
+            <!-- HSC -->
+            <tr>
+              <td><strong>12th Standard (HSC)</strong></td>
+              <td>{{ state.education.hsc.instituteName || '—' }}</td>
+              <td>{{ state.education.hsc.boardOrUniversity || '—' }}</td>
+              <td>{{ state.education.hsc.cgpaOrPercentage ? state.education.hsc.cgpaOrPercentage + '%' : '—' }}</td>
+              <td>{{ state.education.hsc.passingYear || '—' }}</td>
+            </tr>
+            <!-- Graduation -->
+            @if (state.education.includeGraduation) {
+              <tr>
+                <td><strong>Graduation (Bachelor's)</strong></td>
+                <td>{{ state.education.graduation.instituteName || '—' }}</td>
+                <td>{{ state.education.graduation.boardOrUniversity || '—' }}</td>
+                <td>{{ state.education.graduation.cgpaOrPercentage ? state.education.graduation.cgpaOrPercentage + '%' : '—' }}</td>
+                <td>{{ state.education.graduation.passingYear || '—' }}</td>
+              </tr>
+            }
+            <!-- Post Graduation -->
+            @if (state.education.includePostGraduation) {
+              <tr>
+                <td><strong>Post Graduation (Master's)</strong></td>
+                <td>{{ state.education.postGraduation.instituteName || '—' }}</td>
+                <td>{{ state.education.postGraduation.boardOrUniversity || '—' }}</td>
+                <td>{{ state.education.postGraduation.cgpaOrPercentage ? state.education.postGraduation.cgpaOrPercentage + '%' : '—' }}</td>
+                <td>{{ state.education.postGraduation.passingYear || '—' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SECTION 3: WORK EXPERIENCE -->
+    <div class="review-section mb-4 p-3 p-md-4 rounded-3 border bg-white shadow-xs">
+      <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+        <h6 class="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+          <i class="bi bi-briefcase text-primary"></i>
+          3. Work Experience
+        </h6>
+        <button type="button" class="btn btn-sm btn-light border rounded-pill py-1 px-3 small" (click)="editSection(3)">
+          <i class="bi bi-pencil-square text-primary"></i> Edit
+        </button>
+      </div>
+
+      @if (state.isFresher) {
+        <div class="p-3 bg-light rounded-3 text-muted small d-flex align-items-center gap-2">
+          <i class="bi bi-info-circle text-primary"></i>
+          <span>Candidate has registered as an Entry-Level / Fresher without prior employment history.</span>
+        </div>
+      } @else if (state.workExperience.length === 0) {
+        <div class="text-muted small">No employment history recorded.</div>
+      } @else {
+        <div class="d-flex flex-column gap-3">
+          @for (exp of state.workExperience; track exp.id) {
+            <div class="p-3 rounded-3 bg-light border">
+              <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
+                <div>
+                  <strong class="text-dark fs-6">{{ exp.jobTitle || 'Untitled Position' }}</strong>
+                  <div class="text-muted small">{{ exp.companyName }}</div>
+                </div>
+                <span class="badge bg-secondary-subtle text-secondary border mt-1 mt-sm-0">
+                  <i class="bi bi-calendar-event me-1"></i>{{ exp.duration }}
+                </span>
+              </div>
+              @if (exp.description) {
+                <div class="text-muted small mt-2 pt-2 border-top">
+                  {{ exp.description }}
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 4: SKILLS & CERTIFICATIONS -->
+    <div class="review-section mb-4 p-3 p-md-4 rounded-3 border bg-white shadow-xs">
+      <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+        <h6 class="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+          <i class="bi bi-stars text-primary"></i>
+          4. Technical Skills & Certifications
+        </h6>
+        <button type="button" class="btn btn-sm btn-light border rounded-pill py-1 px-3 small" (click)="editSection(4)">
+          <i class="bi bi-pencil-square text-primary"></i> Edit
+        </button>
+      </div>
+
+      <!-- Skills Badges -->
+      <div class="mb-3">
+        <div class="text-muted small mb-2 fw-semibold">Technical Proficiencies:</div>
+        <div class="d-flex flex-wrap gap-2">
+          @for (skill of state.technicalSkills; track skill) {
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2.5 py-1.5">
+              {{ skill }}
+            </span>
+          }
+          @if (state.technicalSkills.length === 0) {
+            <span class="text-danger small">No skills added (Mandatory).</span>
+          }
+        </div>
+      </div>
+
+      <!-- Certifications -->
+      <div>
+        <div class="text-muted small mb-2 fw-semibold">Certifications:</div>
+        @if (state.certifications.length === 0) {
+          <div class="text-muted small">None added (Optional).</div>
+        } @else {
+          <div class="row g-2">
+            @for (cert of state.certifications; track cert.id) {
+              <div class="col-md-6">
+                <div class="p-3 rounded-3 bg-light border small">
+                  <div class="fw-bold text-dark">{{ cert.title }}</div>
+                  <div class="text-muted">{{ cert.issuingOrg }} {{ cert.issueYear ? '(' + cert.issueYear + ')' : '' }}</div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- SECTION 5: COVER LETTER & RESUME -->
+    <div class="review-section p-3 p-md-4 rounded-3 border bg-white shadow-xs">
+      <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+        <h6 class="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+          <i class="bi bi-file-earmark-text text-primary"></i>
+          5. Cover Letter & Resume Attachment
+        </h6>
+        <button type="button" class="btn btn-sm btn-light border rounded-pill py-1 px-3 small" (click)="editSection(5)">
+          <i class="bi bi-pencil-square text-primary"></i> Edit
+        </button>
+      </div>
+
+      <!-- Resume File Detail -->
+      <div class="mb-3">
+        <div class="text-muted small mb-2 fw-semibold">Attached Resume:</div>
+        @if (state.resume) {
+          <div class="d-inline-flex align-items-center gap-3 p-2 px-3 rounded-3 bg-light border">
+            <i class="bi bi-file-earmark-pdf fs-4 text-danger"></i>
+            <div>
+              <div class="fw-bold text-dark small">{{ state.resume.fileName }}</div>
+              <div class="text-muted fs-8">{{ state.resume.formattedSize }} • Uploaded</div>
+            </div>
+          </div>
+        } @else {
+          <span class="text-danger small">No resume file attached (Mandatory).</span>
+        }
+      </div>
+
+      <!-- Cover Letter Content -->
+      <div>
+        <div class="text-muted small mb-2 fw-semibold">Cover Letter:</div>
+        <div class="p-3 bg-light rounded-3 text-secondary small text-pre-wrap border">
+          {{ state.coverLetter || 'No cover letter provided.' }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JSON Preview Modal -->
+<app-modal
+  [isOpen]="showPayloadModal"
+  title="Application JSON Payload"
+  icon="bi-code-square"
+  size="lg"
+  (closed)="showPayloadModal = false"
+>
+  <p class="text-muted small mb-2">
+    This is the exact structured payload transmitted upon application submission:
+  </p>
+  <pre class="bg-dark text-light p-3 rounded-3 small overflow-auto mb-0" style="max-height: 420px;"><code>{{ jsonPreviewString }}</code></pre>
+
+  <div modal-actions class="d-flex justify-content-between w-100 align-items-center">
+    <span class="text-muted small">Generated in-memory via RxJS Application Store</span>
+    <button type="button" class="btn btn-sm btn-secondary" (click)="showPayloadModal = false">Close</button>
+  </div>
+</app-modal>

@@ -1,0 +1,39 @@
+.toast {
+  border-radius: 10px;
+  min-width: 300px;
+  max-width: 380px;
+  background: #ffffff;
+  border-left: 4px solid #94a3b8 !important;
+  animation: slideUp 0.25s ease-out;
+}
+
+.toast-success {
+  border-left-color: #059669 !important;
+}
+
+.toast-danger {
+  border-left-color: #dc2626 !important;
+}
+
+.toast-warning {
+  border-left-color: #d97706 !important;
+}
+
+.toast-info {
+  border-left-color: #2563eb !important;
+}
+
+.toast-title {
+  font-size: 0.875rem;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

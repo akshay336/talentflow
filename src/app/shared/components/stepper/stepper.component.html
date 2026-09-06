@@ -1,0 +1,79 @@
+<div class="stepper-wrapper mb-4">
+  <!-- Desktop Stepper Bar -->
+  <div class="d-none d-lg-block">
+    <div class="stepper-nav d-flex justify-content-between position-relative">
+      <!-- Continuous connecting background line -->
+      <div class="stepper-progress-track">
+        <div class="stepper-progress-bar" [style.width.%]="progressPercentage"></div>
+      </div>
+
+      @for (step of steps; track step.stepIndex) {
+        <div
+          class="step-item d-flex flex-column align-items-center position-relative"
+          [class.active]="currentStep === step.stepIndex"
+          [class.completed]="isStepCompleted(step.stepIndex)"
+          [class.clickable]="isStepClickable(step.stepIndex)"
+          (click)="onStepClick(step.stepIndex)"
+          role="button"
+          [attr.tabindex]="isStepClickable(step.stepIndex) ? 0 : -1"
+          [attr.aria-current]="currentStep === step.stepIndex ? 'step' : null"
+        >
+          <!-- Step Icon / Circle Indicator -->
+          <div class="step-indicator shadow-sm d-flex align-items-center justify-content-center">
+            @if (isStepCompleted(step.stepIndex) && currentStep !== step.stepIndex) {
+              <i class="bi bi-check-lg fw-bold text-white"></i>
+            } @else {
+              <span class="step-number">{{ step.stepIndex }}</span>
+            }
+          </div>
+
+          <!-- Step Label -->
+          <div class="step-label text-center mt-2">
+            <div class="step-title fw-bold">{{ step.title }}</div>
+            <div class="step-subtitle text-muted small">{{ step.subtitle }}</div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Mobile / Tablet Stepper Header -->
+  <div class="d-lg-none bg-white p-3 rounded-3 border shadow-sm">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-primary rounded-pill px-2.5 py-1.5 fs-7">Step {{ currentStep }} of {{ steps.length }}</span>
+        <span class="fw-bold text-dark fs-6">{{ currentStepDef?.title }}</span>
+      </div>
+      <span class="text-primary fw-semibold small">{{ progressPercentage }}% Complete</span>
+    </div>
+
+    <div class="progress" style="height: 6px;">
+      <div
+        class="progress-bar bg-primary progress-bar-striped progress-bar-animated"
+        role="progressbar"
+        [style.width.%]="progressPercentage"
+        [attr.aria-valuenow]="progressPercentage"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      ></div>
+    </div>
+
+    <!-- Mobile Step Jump Chips -->
+    <div class="d-flex gap-1 mt-2 overflow-x-auto pb-1">
+      @for (step of steps; track step.stepIndex) {
+        <button
+          type="button"
+          class="btn btn-sm py-1 px-2 text-nowrap rounded-pill"
+          [class.btn-primary]="currentStep === step.stepIndex"
+          [class.btn-light]="currentStep !== step.stepIndex && !isStepCompleted(step.stepIndex)"
+          [class.btn-outline-primary]="currentStep !== step.stepIndex && isStepCompleted(step.stepIndex)"
+          [disabled]="!isStepClickable(step.stepIndex)"
+          (click)="onStepClick(step.stepIndex)"
+        >
+          <i class="bi" [ngClass]="step.icon"></i>
+          <span class="ms-1">{{ step.title }}</span>
+        </button>
+      }
+    </div>
+  </div>
+</div>

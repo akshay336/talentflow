@@ -1,1 +1,300 @@
-/* You can add global styles to this file, and also import other style files */
+/* -------------------------------------------------------------------------- */
+/* ENTERPRISE DESIGN SYSTEM & GLOBAL STYLES - TALENTFLOW                      */
+/* -------------------------------------------------------------------------- */
+
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  
+  /* Palette */
+  --brand-primary: #1e40af;       /* Deep Indigo / Corporate Blue */
+  --brand-primary-hover: #1d4ed8;
+  --brand-primary-light: #eff6ff;
+  --brand-accent: #0284c7;        /* Sky 600 */
+  --brand-success: #059669;       /* Emerald 600 */
+  --brand-warning: #d97706;       /* Amber 600 */
+  --brand-danger: #dc2626;        /* Rose / Red 600 */
+  
+  /* Slate Neutral Grays */
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
+  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+}
+
+/* Base resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #f8fafc;
+  color: var(--slate-800);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6, .brand-font {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--slate-900);
+}
+
+/* Form Controls Customization */
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--slate-700);
+  margin-bottom: 0.35rem;
+}
+
+.required-mark,
+.form-label .required-mark {
+  color: var(--brand-danger) !important;
+  margin-left: 2px;
+  font-weight: bold;
+}
+
+.form-control, .form-select {
+  font-size: 0.925rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--slate-300);
+  border-radius: var(--radius-sm);
+  background-color: #ffffff;
+  color: var(--slate-800);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control::placeholder {
+  color: var(--slate-400);
+  font-size: 0.875rem;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+  outline: 0;
+}
+
+.form-control.is-invalid, .form-select.is-invalid {
+  border-color: var(--brand-danger);
+  background-image: none;
+}
+
+.form-control.is-invalid:focus, .form-select.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+.input-group:has(.form-control.is-invalid) .input-group-text,
+.input-group:has(.form-select.is-invalid) .input-group-text {
+  border-color: var(--brand-danger) !important;
+}
+
+/* Card Styling */
+.enterprise-card {
+  background: #ffffff;
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.enterprise-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.enterprise-card-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--slate-100);
+  background-color: #ffffff;
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+}
+
+.enterprise-card-body {
+  padding: 1.5rem;
+}
+
+/* Buttons */
+.btn {
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.6rem 1.15rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.18s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: #ffffff;
+  box-shadow: 0 1px 2px 0 rgba(30, 64, 175, 0.2);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background-color: var(--brand-primary-hover);
+  border-color: var(--brand-primary-hover);
+  box-shadow: 0 2px 4px 0 rgba(30, 64, 175, 0.3);
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  border-color: var(--slate-300);
+  color: var(--slate-700);
+}
+
+.btn-secondary:hover {
+  background-color: var(--slate-100);
+  border-color: var(--slate-400);
+  color: var(--slate-900);
+}
+
+.btn-outline-danger {
+  color: var(--brand-danger);
+  border-color: #fecaca;
+  background-color: #fff;
+}
+
+.btn-outline-danger:hover {
+  background-color: #fee2e2;
+  border-color: var(--brand-danger);
+  color: var(--brand-danger);
+}
+
+/* Badges & Tags */
+.badge-soft-primary {
+  background-color: #dbeafe;
+  color: #1e40af;
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.badge-soft-success {
+  background-color: #d1fae5;
+  color: #065f46;
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.badge-soft-warning {
+  background-color: #fef3c7;
+  color: #92400e;
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.badge-soft-secondary {
+  background-color: var(--slate-100);
+  color: var(--slate-700);
+  font-weight: 500;
+  border-radius: 9999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-step {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+/* Responsive Table Styling */
+.table-custom {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.table-custom th {
+  background-color: var(--slate-50);
+  color: var(--slate-600);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--slate-200);
+}
+
+.table-custom td {
+  padding: 0.85rem 1rem;
+  vertical-align: top;
+  border-bottom: 1px solid var(--slate-100);
+  font-size: 0.875rem;
+}
+
+.table-custom td .field-error-message {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  line-height: 1.25;
+}
+
+.table-custom tr:last-child td {
+  border-bottom: none;
+}
+
+/* Container-XL Width Enhancements */
+@media (min-width: 1200px) {
+  .container-xl {
+    max-width: 1320px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container-xl {
+    max-width: 1420px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .container-xl {
+    max-width: 1540px;
+  }
+}
+

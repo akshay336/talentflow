@@ -1,0 +1,402 @@
+<div class="enterprise-card fade-in-step">
+  <div class="enterprise-card-header d-flex justify-content-between align-items-center">
+    <div>
+      <h4 class="mb-1 fw-bold text-dark">Step 2: Educational Qualifications</h4>
+      <p class="text-muted small mb-0">Record your academic history. SSC & HSC are mandatory; Higher education is optional.</p>
+    </div>
+    <span class="badge badge-soft-primary d-none d-sm-inline-flex align-items-center gap-1">
+      <i class="bi bi-mortarboard-fill"></i> Academic Credentials
+    </span>
+  </div>
+
+  <div class="enterprise-card-body p-0">
+    <form [formGroup]="form">
+      <!-- DESKTOP TABLE VIEW (visible on lg screens and up) -->
+      <div class="d-none d-lg-block table-responsive">
+        <table class="table-custom mb-0">
+          <thead>
+            <tr>
+              <th style="width: 22%;">Level / Qualification</th>
+              <th style="width: 26%;">Institute / School Name <span class="required-mark">*</span></th>
+              <th style="width: 24%;">Board / University <span class="required-mark">*</span></th>
+              <th style="width: 14%;">CGPA / % <span class="required-mark">*</span></th>
+              <th style="width: 14%;">Passing Year <span class="required-mark">*</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- SSC Row (Mandatory) -->
+            <tr [formGroup]="sscGroup">
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge bg-primary text-white rounded-pill px-2 py-1 fs-8">Mandatory</span>
+                  <strong class="text-dark">10th Standard (SSC) <span class="required-mark">*</span></strong>
+                </div>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  placeholder="e.g. St. High School"
+                  formControlName="instituteName"
+                  [class.is-invalid]="isFieldInvalid(sscGroup.controls['instituteName'])"
+                />
+                <app-form-error [control]="sscGroup.controls['instituteName']" fieldName="Institute"></app-form-error>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  placeholder="e.g. State Board / CBSE"
+                  formControlName="boardOrUniversity"
+                  [class.is-invalid]="isFieldInvalid(sscGroup.controls['boardOrUniversity'])"
+                />
+                <app-form-error [control]="sscGroup.controls['boardOrUniversity']" fieldName="Board"></app-form-error>
+              </td>
+              <td>
+                <input
+                  type="number"
+                  class="form-control form-control-sm"
+                  placeholder="e.g. 88.5"
+                  step="0.01"
+                  formControlName="cgpaOrPercentage"
+                  [class.is-invalid]="isFieldInvalid(sscGroup.controls['cgpaOrPercentage'])"
+                />
+                <app-form-error [control]="sscGroup.controls['cgpaOrPercentage']" fieldName="Score"></app-form-error>
+              </td>
+              <td>
+                <input
+                  type="number"
+                  class="form-control form-control-sm"
+                  placeholder="e.g. 2018"
+                  formControlName="passingYear"
+                  [class.is-invalid]="isFieldInvalid(sscGroup.controls['passingYear'])"
+                />
+                <app-form-error [control]="sscGroup.controls['passingYear']" fieldName="Year"></app-form-error>
+              </td>
+            </tr>
+
+            <!-- HSC Row (Mandatory) -->
+            <tr [formGroup]="hscGroup">
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge bg-primary text-white rounded-pill px-2 py-1 fs-8">Mandatory</span>
+                  <strong class="text-dark">12th (HSC / Diploma) <span class="required-mark">*</span></strong>
+                </div>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  placeholder="e.g. National Junior College"
+                  formControlName="instituteName"
+                  [class.is-invalid]="isFieldInvalid(hscGroup.controls['instituteName'])"
+                />
+                <app-form-error [control]="hscGroup.controls['instituteName']" fieldName="Institute"></app-form-error>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  placeholder="e.g. Maharashtra Board / ISC"
+                  formControlName="boardOrUniversity"
+                  [class.is-invalid]="isFieldInvalid(hscGroup.controls['boardOrUniversity'])"
+                />
+                <app-form-error [control]="hscGroup.controls['boardOrUniversity']" fieldName="Board"></app-form-error>
+              </td>
+              <td>
+                <input
+                  type="number"
+                  class="form-control form-control-sm"
+                  placeholder="e.g. 84.0"
+                  step="0.01"
+                  formControlName="cgpaOrPercentage"
+                  [class.is-invalid]="isFieldInvalid(hscGroup.controls['cgpaOrPercentage'])"
+                />
+                <app-form-error [control]="hscGroup.controls['cgpaOrPercentage']" fieldName="Score"></app-form-error>
+              </td>
+              <td>
+                <input
+                  type="number"
+                  class="form-control form-control-sm"
+                  placeholder="e.g. 2020"
+                  formControlName="passingYear"
+                  [class.is-invalid]="isFieldInvalid(hscGroup.controls['passingYear'])"
+                />
+                <app-form-error [control]="hscGroup.controls['passingYear']" fieldName="Year"></app-form-error>
+              </td>
+            </tr>
+
+            <!-- Graduation Row (Optional with toggle) -->
+            <tr>
+              <td colspan="5" class="bg-light-subtle py-2 px-3 border-top">
+                <div class="form-check form-switch mb-0">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="toggleGraduationDesktop"
+                    formControlName="includeGraduation"
+                    (change)="onToggleGraduation()"
+                  />
+                  <label class="form-check-label fw-bold text-dark small" for="toggleGraduationDesktop">
+                    Include Graduation Degree Details (Optional)
+                  </label>
+                </div>
+              </td>
+            </tr>
+            @if (form.get('includeGraduation')?.value) {
+              <tr [formGroup]="gradGroup" class="bg-blue-50">
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-secondary-subtle text-secondary rounded-pill px-2 py-1 fs-8">Optional</span>
+                    <strong class="text-dark">Graduation (Bachelor's)</strong>
+                  </div>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    placeholder="e.g. University Tech Campus"
+                    formControlName="instituteName"
+                    [class.is-invalid]="isFieldInvalid(gradGroup.controls['instituteName'])"
+                  />
+                  <app-form-error [control]="gradGroup.controls['instituteName']" fieldName="Institute"></app-form-error>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    placeholder="e.g. Mumbai University"
+                    formControlName="boardOrUniversity"
+                    [class.is-invalid]="isFieldInvalid(gradGroup.controls['boardOrUniversity'])"
+                  />
+                  <app-form-error [control]="gradGroup.controls['boardOrUniversity']" fieldName="University"></app-form-error>
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    placeholder="e.g. 8.45"
+                    step="0.01"
+                    formControlName="cgpaOrPercentage"
+                    [class.is-invalid]="isFieldInvalid(gradGroup.controls['cgpaOrPercentage'])"
+                  />
+                  <app-form-error [control]="gradGroup.controls['cgpaOrPercentage']" fieldName="Score"></app-form-error>
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    placeholder="e.g. 2024"
+                    formControlName="passingYear"
+                    [class.is-invalid]="isFieldInvalid(gradGroup.controls['passingYear'])"
+                  />
+                  <app-form-error [control]="gradGroup.controls['passingYear']" fieldName="Year"></app-form-error>
+                </td>
+              </tr>
+            }
+
+            <!-- Post Graduation Row (Optional with toggle) -->
+            <tr>
+              <td colspan="5" class="bg-light-subtle py-2 px-3 border-top">
+                <div class="form-check form-switch mb-0">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="togglePostGradDesktop"
+                    formControlName="includePostGraduation"
+                    (change)="onTogglePostGrad()"
+                  />
+                  <label class="form-check-label fw-bold text-dark small" for="togglePostGradDesktop">
+                    Include Post Graduation / Master's Degree Details (Optional)
+                  </label>
+                </div>
+              </td>
+            </tr>
+            @if (form.get('includePostGraduation')?.value) {
+              <tr [formGroup]="postGradGroup" class="bg-blue-50">
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-secondary-subtle text-secondary rounded-pill px-2 py-1 fs-8">Optional</span>
+                    <strong class="text-dark">Post Graduation (Master's)</strong>
+                  </div>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    placeholder="e.g. National Graduate School"
+                    formControlName="instituteName"
+                    [class.is-invalid]="isFieldInvalid(postGradGroup.controls['instituteName'])"
+                  />
+                  <app-form-error [control]="postGradGroup.controls['instituteName']" fieldName="Institute"></app-form-error>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    placeholder="e.g. State Technical University"
+                    formControlName="boardOrUniversity"
+                    [class.is-invalid]="isFieldInvalid(postGradGroup.controls['boardOrUniversity'])"
+                  />
+                  <app-form-error [control]="postGradGroup.controls['boardOrUniversity']" fieldName="University"></app-form-error>
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    placeholder="e.g. 9.1"
+                    step="0.01"
+                    formControlName="cgpaOrPercentage"
+                    [class.is-invalid]="isFieldInvalid(postGradGroup.controls['cgpaOrPercentage'])"
+                  />
+                  <app-form-error [control]="postGradGroup.controls['cgpaOrPercentage']" fieldName="Score"></app-form-error>
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    placeholder="e.g. 2026"
+                    formControlName="passingYear"
+                    [class.is-invalid]="isFieldInvalid(postGradGroup.controls['passingYear'])"
+                  />
+                  <app-form-error [control]="postGradGroup.controls['passingYear']" fieldName="Year"></app-form-error>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MOBILE / TABLET RESPONSIVE CARDS VIEW (visible on screens below lg) -->
+      <div class="d-lg-none p-3 d-flex flex-column gap-3">
+        <!-- SSC Mobile Card -->
+        <div class="border rounded-3 p-3 bg-white" [formGroup]="sscGroup">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="fw-bold text-dark mb-0">10th Standard (SSC) <span class="required-mark">*</span></h6>
+            <span class="badge bg-primary text-white">Mandatory</span>
+          </div>
+          <div class="row g-2">
+            <div class="col-12">
+              <label class="form-label small">School / Institute <span class="required-mark">*</span></label>
+              <input type="text" class="form-control form-control-sm" formControlName="instituteName" placeholder="School name" [class.is-invalid]="isFieldInvalid(sscGroup.controls['instituteName'])" />
+              <app-form-error [control]="sscGroup.controls['instituteName']" fieldName="School name"></app-form-error>
+            </div>
+            <div class="col-12">
+              <label class="form-label small">Board <span class="required-mark">*</span></label>
+              <input type="text" class="form-control form-control-sm" formControlName="boardOrUniversity" placeholder="Board name" [class.is-invalid]="isFieldInvalid(sscGroup.controls['boardOrUniversity'])" />
+              <app-form-error [control]="sscGroup.controls['boardOrUniversity']" fieldName="Board"></app-form-error>
+            </div>
+            <div class="col-6">
+              <label class="form-label small">CGPA / % <span class="required-mark">*</span></label>
+              <input type="number" class="form-control form-control-sm" formControlName="cgpaOrPercentage" placeholder="Score" [class.is-invalid]="isFieldInvalid(sscGroup.controls['cgpaOrPercentage'])" />
+              <app-form-error [control]="sscGroup.controls['cgpaOrPercentage']" fieldName="Score"></app-form-error>
+            </div>
+            <div class="col-6">
+              <label class="form-label small">Passing Year <span class="required-mark">*</span></label>
+              <input type="number" class="form-control form-control-sm" formControlName="passingYear" placeholder="Year" [class.is-invalid]="isFieldInvalid(sscGroup.controls['passingYear'])" />
+              <app-form-error [control]="sscGroup.controls['passingYear']" fieldName="Year"></app-form-error>
+            </div>
+          </div>
+        </div>
+
+        <!-- HSC Mobile Card -->
+        <div class="border rounded-3 p-3 bg-white" [formGroup]="hscGroup">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="fw-bold text-dark mb-0">12th Standard / Diploma (HSC) <span class="required-mark">*</span></h6>
+            <span class="badge bg-primary text-white">Mandatory</span>
+          </div>
+          <div class="row g-2">
+            <div class="col-12">
+              <label class="form-label small">College / Institute <span class="required-mark">*</span></label>
+              <input type="text" class="form-control form-control-sm" formControlName="instituteName" placeholder="College name" [class.is-invalid]="isFieldInvalid(hscGroup.controls['instituteName'])" />
+              <app-form-error [control]="hscGroup.controls['instituteName']" fieldName="College name"></app-form-error>
+            </div>
+            <div class="col-12">
+              <label class="form-label small">Board <span class="required-mark">*</span></label>
+              <input type="text" class="form-control form-control-sm" formControlName="boardOrUniversity" placeholder="Board name" [class.is-invalid]="isFieldInvalid(hscGroup.controls['boardOrUniversity'])" />
+              <app-form-error [control]="hscGroup.controls['boardOrUniversity']" fieldName="Board"></app-form-error>
+            </div>
+            <div class="col-6">
+              <label class="form-label small">CGPA / % <span class="required-mark">*</span></label>
+              <input type="number" class="form-control form-control-sm" formControlName="cgpaOrPercentage" placeholder="Score" [class.is-invalid]="isFieldInvalid(hscGroup.controls['cgpaOrPercentage'])" />
+              <app-form-error [control]="hscGroup.controls['cgpaOrPercentage']" fieldName="Score"></app-form-error>
+            </div>
+            <div class="col-6">
+              <label class="form-label small">Passing Year <span class="required-mark">*</span></label>
+              <input type="number" class="form-control form-control-sm" formControlName="passingYear" placeholder="Year" [class.is-invalid]="isFieldInvalid(hscGroup.controls['passingYear'])" />
+              <app-form-error [control]="hscGroup.controls['passingYear']" fieldName="Year"></app-form-error>
+            </div>
+          </div>
+        </div>
+
+        <!-- Graduation Mobile Card -->
+        <div class="border rounded-3 p-3 bg-light">
+          <div class="form-check form-switch mb-2">
+            <input class="form-check-input" type="checkbox" id="toggleGradMobile" formControlName="includeGraduation" (change)="onToggleGraduation()" />
+            <label class="form-check-label fw-bold text-dark small" for="toggleGradMobile">Include Graduation Degree (Optional)</label>
+          </div>
+
+          @if (form.get('includeGraduation')?.value) {
+            <div class="row g-2 mt-1" [formGroup]="gradGroup">
+              <div class="col-12">
+                <label class="form-label small">Institute / College <span class="required-mark">*</span></label>
+                <input type="text" class="form-control form-control-sm" formControlName="instituteName" placeholder="University / College" [class.is-invalid]="isFieldInvalid(gradGroup.controls['instituteName'])" />
+                <app-form-error [control]="gradGroup.controls['instituteName']" fieldName="College name"></app-form-error>
+              </div>
+              <div class="col-12">
+                <label class="form-label small">University <span class="required-mark">*</span></label>
+                <input type="text" class="form-control form-control-sm" formControlName="boardOrUniversity" placeholder="University" [class.is-invalid]="isFieldInvalid(gradGroup.controls['boardOrUniversity'])" />
+                <app-form-error [control]="gradGroup.controls['boardOrUniversity']" fieldName="University"></app-form-error>
+              </div>
+              <div class="col-6">
+                <label class="form-label small">CGPA / % <span class="required-mark">*</span></label>
+                <input type="number" class="form-control form-control-sm" formControlName="cgpaOrPercentage" placeholder="Score" [class.is-invalid]="isFieldInvalid(gradGroup.controls['cgpaOrPercentage'])" />
+                <app-form-error [control]="gradGroup.controls['cgpaOrPercentage']" fieldName="Score"></app-form-error>
+              </div>
+              <div class="col-6">
+                <label class="form-label small">Passing Year <span class="required-mark">*</span></label>
+                <input type="number" class="form-control form-control-sm" formControlName="passingYear" placeholder="Year" [class.is-invalid]="isFieldInvalid(gradGroup.controls['passingYear'])" />
+                <app-form-error [control]="gradGroup.controls['passingYear']" fieldName="Year"></app-form-error>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Post Grad Mobile Card -->
+        <div class="border rounded-3 p-3 bg-light">
+          <div class="form-check form-switch mb-2">
+            <input class="form-check-input" type="checkbox" id="togglePostGradMobile" formControlName="includePostGraduation" (change)="onTogglePostGrad()" />
+            <label class="form-check-label fw-bold text-dark small" for="togglePostGradMobile">Include Post-Graduation / Master's (Optional)</label>
+          </div>
+
+          @if (form.get('includePostGraduation')?.value) {
+            <div class="row g-2 mt-1" [formGroup]="postGradGroup">
+              <div class="col-12">
+                <label class="form-label small">Institute / College <span class="required-mark">*</span></label>
+                <input type="text" class="form-control form-control-sm" formControlName="instituteName" placeholder="University / College" [class.is-invalid]="isFieldInvalid(postGradGroup.controls['instituteName'])" />
+                <app-form-error [control]="postGradGroup.controls['instituteName']" fieldName="College name"></app-form-error>
+              </div>
+              <div class="col-12">
+                <label class="form-label small">University <span class="required-mark">*</span></label>
+                <input type="text" class="form-control form-control-sm" formControlName="boardOrUniversity" placeholder="University" [class.is-invalid]="isFieldInvalid(postGradGroup.controls['boardOrUniversity'])" />
+                <app-form-error [control]="postGradGroup.controls['boardOrUniversity']" fieldName="University"></app-form-error>
+              </div>
+              <div class="col-6">
+                <label class="form-label small">CGPA / % <span class="required-mark">*</span></label>
+                <input type="number" class="form-control form-control-sm" formControlName="cgpaOrPercentage" placeholder="Score" [class.is-invalid]="isFieldInvalid(postGradGroup.controls['cgpaOrPercentage'])" />
+                <app-form-error [control]="postGradGroup.controls['cgpaOrPercentage']" fieldName="Score"></app-form-error>
+              </div>
+              <div class="col-6">
+                <label class="form-label small">Passing Year <span class="required-mark">*</span></label>
+                <input type="number" class="form-control form-control-sm" formControlName="passingYear" placeholder="Year" [class.is-invalid]="isFieldInvalid(postGradGroup.controls['passingYear'])" />
+                <app-form-error [control]="postGradGroup.controls['passingYear']" fieldName="Year"></app-form-error>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

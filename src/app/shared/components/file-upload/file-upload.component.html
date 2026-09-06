@@ -1,0 +1,107 @@
+<div class="file-upload-container">
+  <!-- Hidden File Input -->
+  <input
+    #fileInput
+    type="file"
+    class="d-none"
+    [accept]="allowedExtensionsString"
+    (change)="onFileInputChange($event)"
+  />
+
+  <!-- When No File Selected: Drag & Drop Dropzone -->
+  @if (!fileMetadata) {
+    <div
+      class="dropzone-area p-4 p-md-5 text-center rounded-3 border-2 border-dashed"
+      [class.drag-over]="isDragging"
+      [class.has-error]="!!errorMessage"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onFileDrop($event)"
+      (click)="triggerFilePicker()"
+      role="button"
+      tabindex="0"
+      (keydown.enter)="triggerFilePicker()"
+      (keydown.space)="triggerFilePicker()"
+    >
+      <div class="dropzone-icon-wrapper mb-3 mx-auto d-flex align-items-center justify-content-center">
+        <i class="bi bi-cloud-arrow-up fs-2 text-primary"></i>
+      </div>
+
+      <h6 class="fw-bold mb-1 text-slate-800">
+        <span class="text-primary text-decoration-underline">Click to upload</span> or drag and drop your resume
+      </h6>
+      <p class="text-muted small mb-2">
+        Supported formats: <strong>PDF, DOC, DOCX</strong> (Max file size: <strong>{{ maxFileSizeMB }} MB</strong>)
+      </p>
+
+      <div class="d-flex justify-content-center gap-2 mt-2">
+        <span class="badge bg-light text-secondary border">.PDF</span>
+        <span class="badge bg-light text-secondary border">.DOC</span>
+        <span class="badge bg-light text-secondary border">.DOCX</span>
+      </div>
+    </div>
+  } @else {
+    <!-- When File is Uploaded: Rich File Preview Card -->
+    <div class="file-preview-card p-3 p-md-4 rounded-3 border bg-white shadow-xs">
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="file-icon-box rounded-3 d-flex align-items-center justify-content-center">
+            @if (isPdf(fileMetadata.fileName)) {
+              <i class="bi bi-file-earmark-pdf fs-2 text-danger"></i>
+            } @else if (isWord(fileMetadata.fileName)) {
+              <i class="bi bi-file-earmark-word fs-2 text-primary"></i>
+            } @else {
+              <i class="bi bi-file-earmark-text fs-2 text-secondary"></i>
+            }
+          </div>
+
+          <div>
+            <div class="d-flex align-items-center gap-2">
+              <h6 class="fw-bold mb-0 text-truncate file-name-display" [title]="fileMetadata.fileName">
+                {{ fileMetadata.fileName }}
+              </h6>
+              <span class="badge bg-success-subtle text-success border border-success-subtle small py-1">
+                <i class="bi bi-check-circle-fill me-1"></i> Validated
+              </span>
+            </div>
+            <div class="text-muted small mt-1 d-flex flex-wrap gap-2 align-items-center">
+              <span><i class="bi bi-hdd me-1"></i>{{ fileMetadata.formattedSize }}</span>
+              <span>•</span>
+              <span><i class="bi bi-clock me-1"></i>Uploaded {{ fileMetadata.uploadedAt | date:'shortTime' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons: Replace & Remove -->
+        <div class="d-flex align-items-center gap-2">
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-secondary"
+            (click)="triggerFilePicker()"
+            title="Replace with another file"
+          >
+            <i class="bi bi-arrow-repeat"></i>
+            <span>Replace</span>
+          </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-danger"
+            (click)="removeFile()"
+            title="Remove uploaded resume"
+          >
+            <i class="bi bi-trash3"></i>
+            <span>Remove</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Error Message Banner -->
+  @if (errorMessage) {
+    <div class="alert alert-danger d-flex align-items-center gap-2 mt-2 py-2 px-3 small border-danger-subtle" role="alert">
+      <i class="bi bi-exclamation-triangle-fill fs-6 text-danger"></i>
+      <div>{{ errorMessage }}</div>
+    </div>
+  }
+</div>

@@ -1,0 +1,191 @@
+<div class="enterprise-card fade-in-step">
+  <div class="enterprise-card-header d-flex justify-content-between align-items-center">
+    <div>
+      <h4 class="mb-1 fw-bold text-dark">Step 4: Skills & Professional Certifications</h4>
+      <p class="text-muted small mb-0">Highlight your core competencies and industry-recognized credentials.</p>
+    </div>
+    <span class="badge badge-soft-primary d-none d-sm-inline-flex align-items-center gap-1">
+      <i class="bi bi-stars"></i> Competency Matrix
+    </span>
+  </div>
+
+  <div class="enterprise-card-body">
+    <!-- SECTION 1: TECHNICAL SKILLS -->
+    <div class="mb-5 pb-4 border-bottom">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <h5 class="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+          <i class="bi bi-code-slash text-primary"></i>
+          Technical Skills <span class="required-mark">*</span>
+        </h5>
+        <span class="badge bg-light text-dark border">
+          {{ skills.length }} {{ skills.length === 1 ? 'Skill' : 'Skills' }} Added
+        </span>
+      </div>
+      <p class="text-muted small mb-3">
+        Add your key programming languages, frameworks, and technical proficiencies (At least 1 required).
+      </p>
+
+      <!-- Skill Input Box -->
+      <div class="row g-2 mb-3">
+        <div class="col-sm-8 col-md-9">
+          <div class="input-group">
+            <span class="input-group-text bg-light text-muted border-end-0">
+              <i class="bi bi-tag"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control border-start-0"
+              placeholder="Type a skill (e.g. Angular, TypeScript, RxJS) and press Enter"
+              [(ngModel)]="newSkillInput"
+              (keydown.enter)="addSkill($event)"
+              [class.is-invalid]="skillInputError"
+            />
+          </div>
+          @if (skillInputError) {
+            <div class="text-danger small mt-1 d-flex align-items-center gap-1">
+              <i class="bi bi-exclamation-circle-fill"></i>
+              <span>{{ skillInputError }}</span>
+            </div>
+          }
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <button type="button" class="btn btn-primary w-100" (click)="addSkill()">
+            <i class="bi bi-plus-lg"></i> Add Skill
+          </button>
+        </div>
+      </div>
+
+      <!-- Suggested Quick-Add Skills -->
+      <div class="mb-3">
+        <div class="text-muted small fw-semibold mb-2">Quick Add Suggestions:</div>
+        <div class="d-flex flex-wrap gap-1.5">
+          @for (suggested of suggestedSkills; track suggested) {
+            <button
+              type="button"
+              class="btn btn-sm btn-light border rounded-pill py-1 px-2.5 small"
+              [disabled]="isSkillAdded(suggested)"
+              (click)="addSpecificSkill(suggested)"
+            >
+              <i class="bi bi-plus text-primary"></i> {{ suggested }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Added Skills Chips / Badge Container -->
+      <div class="p-3 bg-light rounded-3 border min-h-60" [class.border-danger]="isSubmitted && skills.length === 0">
+        @if (skills.length === 0) {
+          <div class="text-muted text-center small py-2">
+            <i class="bi bi-info-circle me-1"></i> No technical skills added yet. Please add at least one skill.
+          </div>
+        } @else {
+          <div class="d-flex flex-wrap gap-2">
+            @for (skill of skills; track skill; let idx = $index) {
+              <span class="badge bg-white text-primary border border-primary-subtle shadow-xs rounded-pill px-3 py-2 fs-7 d-inline-flex align-items-center gap-2">
+                <i class="bi bi-check2 text-success"></i>
+                <strong class="text-dark">{{ skill }}</strong>
+                <button
+                  type="button"
+                  class="btn-close btn-close-sm ms-1"
+                  (click)="removeSkill(idx)"
+                  aria-label="Remove skill"
+                  title="Remove skill"
+                ></button>
+              </span>
+            }
+          </div>
+        }
+      </div>
+      @if (isSubmitted && skills.length === 0) {
+        <div class="field-error-message mt-2 text-danger d-flex align-items-center gap-1.5 small">
+          <i class="bi bi-exclamation-circle-fill flex-shrink-0"></i>
+          <span>At least one technical skill is required to proceed.</span>
+        </div>
+      }
+    </div>
+
+    <!-- SECTION 2: PROFESSIONAL CERTIFICATIONS (OPTIONAL) -->
+    <div>
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <div>
+          <h5 class="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+            <i class="bi bi-award text-primary"></i>
+            Certifications & Accreditations
+            <span class="text-muted fw-normal fs-6">(Optional)</span>
+          </h5>
+          <p class="text-muted small mb-0">Add any relevant industry certificates or licensed credentials.</p>
+        </div>
+        <button type="button" class="btn btn-outline-primary btn-sm rounded-pill" (click)="addCertification()">
+          <i class="bi bi-plus-lg"></i> Add Certificate
+        </button>
+      </div>
+
+      <!-- Dynamic Certifications FormArray -->
+      <form [formGroup]="certForm" class="mt-3">
+        <div formArrayName="certifications" class="d-flex flex-column gap-3">
+          @for (certGroup of certifications.controls; track $index) {
+            <div class="p-3 bg-white rounded-3 border shadow-xs" [formGroupName]="$index">
+              <div class="d-flex justify-content-between align-items-center mb-2 pb-1 border-bottom">
+                <span class="badge bg-secondary-subtle text-dark fw-bold">Certificate #{{ $index + 1 }}</span>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-danger py-0.5 px-2 rounded-pill"
+                  (click)="removeCertification($index)"
+                >
+                  <i class="bi bi-trash3"></i> Remove
+                </button>
+              </div>
+
+              <div class="row g-2">
+                <!-- Title -->
+                <div class="col-md-5">
+                  <label class="form-label small">Certificate Name <span class="required-mark">*</span></label>
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    placeholder="e.g. AWS Certified Solutions Architect"
+                    formControlName="title"
+                    [class.is-invalid]="isFieldInvalid(certGroup.get('title'))"
+                  />
+                  <app-form-error [control]="certGroup.get('title')" fieldName="Certificate Title"></app-form-error>
+                </div>
+
+                <!-- Issuer -->
+                <div class="col-md-4">
+                  <label class="form-label small">Issuing Organization <span class="required-mark">*</span></label>
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    placeholder="e.g. Amazon Web Services, Google"
+                    formControlName="issuingOrg"
+                    [class.is-invalid]="isFieldInvalid(certGroup.get('issuingOrg'))"
+                  />
+                  <app-form-error [control]="certGroup.get('issuingOrg')" fieldName="Issuer"></app-form-error>
+                </div>
+
+                <!-- Issue Year -->
+                <div class="col-md-3">
+                  <label class="form-label small">Year of Issue</label>
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    placeholder="e.g. 2024"
+                    formControlName="issueYear"
+                    [class.is-invalid]="isFieldInvalid(certGroup.get('issueYear'))"
+                  />
+                  <app-form-error [control]="certGroup.get('issueYear')" fieldName="Year"></app-form-error>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        @if (certifications.length === 0) {
+          <div class="text-center py-3 bg-light rounded-3 border border-dashed mt-2">
+            <span class="text-muted small">No certifications added. Click "Add Certificate" if you have any.</span>
+          </div>
+        }
+      </form>
+    </div>
+  </div>
+</div>

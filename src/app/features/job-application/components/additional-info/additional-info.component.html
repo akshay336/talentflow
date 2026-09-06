@@ -1,0 +1,80 @@
+<div class="enterprise-card fade-in-step">
+  <div class="enterprise-card-header d-flex justify-content-between align-items-center">
+    <div>
+      <h4 class="mb-1 fw-bold text-dark">Step 5: Additional Information & Documents</h4>
+      <p class="text-muted small mb-0">Submit your tailored cover letter and attach your latest resume/curriculum vitae.</p>
+    </div>
+    <span class="badge badge-soft-primary d-none d-sm-inline-flex align-items-center gap-1">
+      <i class="bi bi-file-earmark-arrow-up-fill"></i> Documents & Pitch
+    </span>
+  </div>
+
+  <div class="enterprise-card-body">
+    <form [formGroup]="form">
+      <!-- COVER LETTER SECTION -->
+      <div class="mb-4 pb-4 border-bottom">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <label for="coverLetter" class="form-label mb-0 fw-bold">
+            Cover Letter / Personal Statement <span class="required-mark">*</span>
+          </label>
+          <div class="small" [ngClass]="currentLength >= minCoverLength ? 'text-success fw-semibold' : 'text-muted'">
+            <span>{{ currentLength }}</span> / {{ minCoverLength }} min characters
+            @if (currentLength >= minCoverLength) {
+              <i class="bi bi-check-circle-fill ms-1"></i>
+            }
+          </div>
+        </div>
+        <p class="text-muted small mb-2">
+          Explain why you are the ideal fit for this role, key career highlights, and what you bring to the team.
+        </p>
+
+        <textarea
+          id="coverLetter"
+          rows="6"
+          class="form-control"
+          placeholder=" Dear Hiring Committee,&#10;&#10;I am excited to apply for this position. With my skills and experience, I believe I can contribute effectively to your team.Thank you for considering my application."
+          formControlName="coverLetter"
+          [class.is-invalid]="isFieldInvalid(f['coverLetter'])"
+        ></textarea>
+        <app-form-error [control]="f['coverLetter']" fieldName="Cover letter"></app-form-error>
+      </div>
+
+      <!-- RESUME UPLOAD SECTION -->
+      <div>
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <label class="form-label mb-0 fw-bold">
+            Resume / Curriculum Vitae (CV) <span class="required-mark">*</span>
+          </label>
+          @if (resumeFile) {
+            <span class="badge bg-success-subtle text-success border border-success-subtle small py-1">
+              <i class="bi bi-check-circle-fill me-1"></i> File Attached
+            </span>
+          } @else {
+            <span class="badge bg-warning-subtle text-warning border border-warning-subtle small py-1">
+              <i class="bi bi-exclamation-circle me-1"></i> File Required
+            </span>
+          }
+        </div>
+        <p class="text-muted small mb-3">
+          Upload your resume in PDF, DOC, or DOCX format (Maximum file size: 5 MB).
+        </p>
+
+        <!-- Reusable File Upload Component -->
+        <app-file-upload
+          [fileMetadata]="resumeFile"
+          [maxFileSizeMB]="5"
+          [allowedExtensions]="['.pdf', '.doc', '.docx']"
+          (fileUploaded)="onFileUploaded($event)"
+          (fileRemoved)="onFileRemoved()"
+        ></app-file-upload>
+
+        @if (!resumeFile && (isSubmitted || hasSubmittedOrTouchedResume)) {
+          <div class="field-error-message mt-2 text-danger d-flex align-items-center gap-1.5 small">
+            <i class="bi bi-exclamation-circle-fill flex-shrink-0"></i>
+            <span>A resume file (.pdf, .doc, or .docx under 5MB) is mandatory to proceed.</span>
+          </div>
+        }
+      </div>
+    </form>
+  </div>
+</div>

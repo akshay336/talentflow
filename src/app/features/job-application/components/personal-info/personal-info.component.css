@@ -1,0 +1,4 @@
+/* Personal Info step scoped styles */
+:host {
+  display: block;
+}

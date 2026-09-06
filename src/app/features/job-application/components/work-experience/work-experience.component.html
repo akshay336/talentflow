@@ -1,0 +1,168 @@
+<div class="enterprise-card fade-in-step">
+  <div class="enterprise-card-header d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
+    <div>
+      <h4 class="mb-1 fw-bold text-dark">Step 3: Professional Work Experience</h4>
+      <p class="text-muted small mb-0">List your relevant employment history starting with your most recent position.</p>
+    </div>
+
+    <!-- Fresher Toggle -->
+    <div class="form-check form-switch d-flex align-items-center gap-2 m-0 p-0">
+      <input
+        class="form-check-input ms-0 me-2"
+        type="checkbox"
+        role="switch"
+        id="fresherSwitch"
+        [checked]="isFresher"
+        (change)="toggleFresher($event)"
+      />
+      <label class="form-check-label fw-bold small text-dark" for="fresherSwitch">
+        I am a Fresher (No work experience)
+      </label>
+    </div>
+  </div>
+
+  <div class="enterprise-card-body">
+    @if (isFresher) {
+      <!-- Fresher Empty State Banner -->
+      <div class="text-center py-5 px-3 bg-light rounded-3 border border-dashed">
+        <div class="mb-3">
+          <i class="bi bi-person-workspace fs-1 text-primary"></i>
+        </div>
+        <h5 class="fw-bold text-dark">Fresher Candidate Profile</h5>
+        <p class="text-muted small max-w-md mx-auto mb-3">
+          You have indicated that you have no prior professional work experience. You can proceed directly to the next step.
+        </p>
+        <button type="button" class="btn btn-sm btn-outline-primary" (click)="setHasExperience()">
+          <i class="bi bi-plus-circle"></i> Switch to Add Experience
+        </button>
+      </div>
+    } @else {
+      <!-- Dynamic Work Experience Records -->
+      <form [formGroup]="form">
+        <div formArrayName="experiences" class="d-flex flex-column gap-3">
+          @for (expGroup of experiences.controls; track $index) {
+            <div class="experience-card p-3 p-md-4 rounded-3 border bg-white shadow-xs position-relative" [formGroupName]="$index">
+              <!-- Header with index and delete -->
+              <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge bg-primary-subtle text-primary rounded-pill px-2.5 py-1 fw-bold">
+                    Position #{{ $index + 1 }}
+                  </span>
+                  <span class="text-muted small">
+                    {{ expGroup.get('jobTitle')?.value ? expGroup.get('jobTitle')?.value : 'Untitled Role' }}
+                    {{ expGroup.get('companyName')?.value ? 'at ' + expGroup.get('companyName')?.value : '' }}
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-danger py-1 px-2.5 rounded-pill"
+                  (click)="removeExperience($index)"
+                  title="Remove this experience record"
+                >
+                  <i class="bi bi-trash3"></i>
+                  <span class="d-none d-sm-inline ms-1">Remove</span>
+                </button>
+              </div>
+
+              <!-- Form Fields Grid -->
+              <div class="row g-3">
+                <!-- Company Name -->
+                <div class="col-md-6">
+                  <label class="form-label">
+                    Company / Organization Name <span class="required-mark">*</span>
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light text-muted border-end-0">
+                      <i class="bi bi-building"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control border-start-0"
+                      placeholder="e.g. Choice Techlab"
+                      formControlName="companyName"
+                      [class.is-invalid]="isFieldInvalid(expGroup.get('companyName'))"
+                    />
+                  </div>
+                  <app-form-error [control]="expGroup.get('companyName')" fieldName="Company Name"></app-form-error>
+                </div>
+
+                <!-- Job Title -->
+                <div class="col-md-6">
+                  <label class="form-label">
+                    Job Title / Designation <span class="required-mark">*</span>
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light text-muted border-end-0">
+                      <i class="bi bi-person-badge"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control border-start-0"
+                      placeholder="e.g. Senior Frontend Engineer"
+                      formControlName="jobTitle"
+                      [class.is-invalid]="isFieldInvalid(expGroup.get('jobTitle'))"
+                    />
+                  </div>
+                  <app-form-error [control]="expGroup.get('jobTitle')" fieldName="Job Title"></app-form-error>
+                </div>
+
+                <!-- Duration -->
+                <div class="col-md-6">
+                  <label class="form-label">
+                    Duration / Time Period <span class="required-mark">*</span>
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light text-muted border-end-0">
+                      <i class="bi bi-calendar3"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control border-start-0"
+                      placeholder="e.g. Jan 2022 - Present (2 Years)"
+                      formControlName="duration"
+                      [class.is-invalid]="isFieldInvalid(expGroup.get('duration'))"
+                    />
+                  </div>
+                  <app-form-error [control]="expGroup.get('duration')" fieldName="Duration"></app-form-error>
+                </div>
+
+                <!-- Key Responsibilities -->
+                <div class="col-12">
+                  <label class="form-label">
+                    Key Responsibilities & Achievements <span class="text-muted fw-normal">(Optional)</span>
+                  </label>
+                  <textarea
+                    rows="2"
+                    class="form-control"
+                    placeholder="Brief summary of your responsibilities, technologies used, and business impact..."
+                    formControlName="description"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Empty List Notice -->
+        @if (experiences.length === 0) {
+          <div class="text-center py-4 bg-light rounded-3 border border-dashed mb-3">
+            <p class="text-muted mb-2">No work experiences added yet.</p>
+            <button type="button" class="btn btn-primary btn-sm" (click)="addExperience()">
+              <i class="bi bi-plus-lg"></i> Add First Position
+            </button>
+          </div>
+        }
+
+        <!-- Add More Button -->
+        @if (experiences.length > 0) {
+          <div class="d-flex justify-content-start mt-3">
+            <button type="button" class="btn btn-outline-primary" (click)="addExperience()">
+              <i class="bi bi-plus-lg"></i> Add Another Work Experience
+            </button>
+          </div>
+        }
+      </form>
+    }
+  </div>
+</div>

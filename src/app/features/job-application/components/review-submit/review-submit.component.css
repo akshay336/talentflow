@@ -1,0 +1,22 @@
+.fs-8 {
+  font-size: 0.72rem;
+}
+
+.text-pre-wrap {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.review-section {
+  padding: 1.25rem 1.5rem;
+  background-color: #ffffff;
+  border-radius: var(--radius-md, 10px);
+  border: 1px solid var(--slate-200, #e2e8f0);
+  box-shadow: var(--shadow-xs, 0 1px 2px 0 rgba(15, 23, 42, 0.05));
+  transition: all 0.2s ease;
+}
+
+.review-section:hover {
+  border-color: #cbd5e1 !important;
+  box-shadow: var(--shadow-sm, 0 1px 3px 0 rgba(15, 23, 42, 0.08));
+}

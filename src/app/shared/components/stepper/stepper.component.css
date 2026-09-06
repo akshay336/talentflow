@@ -1,0 +1,82 @@
+.stepper-wrapper {
+  width: 100%;
+}
+
+.stepper-progress-track {
+  position: absolute;
+  top: 24px;
+  left: 5%;
+  right: 5%;
+  height: 4px;
+  background-color: #e2e8f0;
+  z-index: 1;
+  border-radius: 9999px;
+}
+
+.stepper-progress-bar {
+  height: 100%;
+  background-color: #1e40af;
+  border-radius: 9999px;
+  transition: width 0.35s ease;
+}
+
+.step-item {
+  z-index: 2;
+  width: 130px;
+  cursor: default;
+  transition: all 0.2s ease;
+}
+
+.step-item.clickable {
+  cursor: pointer;
+}
+
+.step-indicator {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 2px solid #cbd5e1;
+  color: #64748b;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.25s ease;
+}
+
+.step-item.active .step-indicator {
+  border-color: #1e40af;
+  background-color: #1e40af;
+  color: #ffffff;
+  box-shadow: 0 0 0 5px rgba(30, 64, 175, 0.15) !important;
+  transform: scale(1.05);
+}
+
+.step-item.completed .step-indicator {
+  border-color: #059669;
+  background-color: #059669;
+  color: #ffffff;
+}
+
+.step-title {
+  font-size: 0.85rem;
+  color: #334155;
+  margin-top: 0.25rem;
+  line-height: 1.2;
+}
+
+.step-item.active .step-title {
+  color: #1e40af;
+}
+
+.step-item.completed .step-title {
+  color: #059669;
+}
+
+.step-subtitle {
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.fs-7 {
+  font-size: 0.75rem;
+}

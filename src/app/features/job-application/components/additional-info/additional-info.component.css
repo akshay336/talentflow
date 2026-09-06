@@ -1,0 +1,4 @@
+/* Additional Info scoped styles */
+:host {
+  display: block;
+}

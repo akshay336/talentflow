@@ -1,0 +1,13 @@
+.brand-logo-badge {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+}
+
+.wizard-footer {
+  z-index: 1020;
+}
+
+.step-content-viewport {
+  min-height: 450px;
+}

@@ -1,0 +1,38 @@
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1090;">
+  @for (toast of (toastService.toasts$ | async); track toast.id) {
+    <div
+      class="toast show mb-2 shadow-lg border-0"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+      [class.toast-success]="toast.type === 'success'"
+      [class.toast-danger]="toast.type === 'danger'"
+      [class.toast-warning]="toast.type === 'warning'"
+      [class.toast-info]="toast.type === 'info'"
+    >
+      <div class="toast-header border-0 d-flex justify-content-between align-items-center bg-transparent py-2">
+        <div class="d-flex align-items-center gap-2">
+          @if (toast.type === 'success') {
+            <i class="bi bi-check-circle-fill text-success fs-6"></i>
+          } @else if (toast.type === 'danger') {
+            <i class="bi bi-exclamation-octagon-fill text-danger fs-6"></i>
+          } @else if (toast.type === 'warning') {
+            <i class="bi bi-exclamation-triangle-fill text-warning fs-6"></i>
+          } @else {
+            <i class="bi bi-info-circle-fill text-primary fs-6"></i>
+          }
+          <strong class="toast-title text-dark">{{ toast.title }}</strong>
+        </div>
+        <button
+          type="button"
+          class="btn-close btn-close-sm"
+          (click)="toastService.remove(toast.id)"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="toast-body pt-0 pb-2.5 text-secondary small">
+        {{ toast.message }}
+      </div>
+    </div>
+  }
+</div>

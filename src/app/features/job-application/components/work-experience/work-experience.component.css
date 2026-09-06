@@ -1,0 +1,7 @@
+.experience-card {
+  transition: all 0.2s ease;
+  border-left: 4px solid #1e40af !important;
+}
+.max-w-md {
+  max-width: 480px;
+}
