@@ -2,6 +2,8 @@
 
 A production-grade, enterprise-ready **6-Step Multi-Step Job Application Wizard** built with **Angular (Standalone Architecture)**, **TypeScript**, **RxJS**, and **Bootstrap 5.3**.
 
+🔗 **Live Demo**: [https://akshay336.github.io/talentflow/](https://akshay336.github.io/talentflow/)
+
 ---
 
 ## 🌟 Executive Project Overview
